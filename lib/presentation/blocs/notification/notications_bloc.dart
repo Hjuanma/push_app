@@ -8,6 +8,14 @@ import '../../../firebase_options.dart';
 part 'notications_event.dart';
 part 'notications_state.dart';
 
+Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  // If you're going to use other Firebase services in the background, such as Firestore,
+  // make sure you call `initializeApp` before using other Firebase services.
+  await Firebase.initializeApp();
+
+  print("Handling a background message: ${message.messageId}");
+}
+
 class NoticationsBloc extends Bloc<NoticationsEvent, NoticationsState> {
   FirebaseMessaging messaging = FirebaseMessaging.instance;
 
@@ -43,7 +51,7 @@ class NoticationsBloc extends Bloc<NoticationsEvent, NoticationsState> {
     if (settings.authorizationStatus != AuthorizationStatus.authorized) return;
 
     final token = await messaging.getToken();
-    print(token);
+    print("Token ===== $token");
   }
 
   void _handleRemoteMessage(RemoteMessage message) {
