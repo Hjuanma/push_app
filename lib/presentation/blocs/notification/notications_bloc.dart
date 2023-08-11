@@ -24,6 +24,7 @@ class NoticationsBloc extends Bloc<NoticationsEvent, NoticationsState> {
 
   NoticationsBloc() : super(const NoticationsState()) {
     on<NotificationStatusChanged>(_notificationStatusChanged);
+    on<NotificationReceived>(_onPushMessgeRecieived);
 
     //verifica el estado de las notificaciones
     _initialStatusCheck();
@@ -44,6 +45,12 @@ class NoticationsBloc extends Bloc<NoticationsEvent, NoticationsState> {
     _getFCMToken();
   }
 
+  void _onPushMessgeRecieived(
+      NotificationReceived event, Emitter<NoticationsState> emit) {
+    emit(state.copyWith(
+        notifications: [event.notification, ...state.notifications]));
+  }
+
   void _initialStatusCheck() async {
     final settings = await messaging.getNotificationSettings();
     add(NotificationStatusChanged(settings.authorizationStatus));
@@ -59,7 +66,7 @@ class NoticationsBloc extends Bloc<NoticationsEvent, NoticationsState> {
 
   void _handleRemoteMessage(RemoteMessage message) {
     if (message.notification == null) return;
-    final notification = PushMessaage(
+    final notification = PushMessage(
         messageId:
             message.messageId?.replaceAll(':', '').replaceAll('%', '') ?? "",
         title: message.notification!.title ?? "",
@@ -70,7 +77,7 @@ class NoticationsBloc extends Bloc<NoticationsEvent, NoticationsState> {
             ? message.notification!.android?.imageUrl
             : message.notification!.apple?.imageUrl);
 
-    print(notification);
+    add(NotificationReceived(notification));
   }
 
   void _onForegroundMessage() {

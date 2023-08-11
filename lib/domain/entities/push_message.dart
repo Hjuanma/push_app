@@ -1,4 +1,4 @@
-class PushMessaage {
+class PushMessage {
   final String messageId;
   final String title;
   final String body;
@@ -6,7 +6,7 @@ class PushMessaage {
   final Map<String, dynamic>? data;
   final String? imageUrl;
 
-  PushMessaage(
+  PushMessage(
       {required this.messageId,
       required this.title,
       required this.body,
