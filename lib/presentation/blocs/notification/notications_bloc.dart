@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
-import '../../../domain/domain.dart';
+import '../../../domain/entities/entities.dart';
 import '../../../firebase_options.dart';
 
 part 'notications_event.dart';
