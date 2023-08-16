@@ -10,6 +10,7 @@ class PushMessage {
   final String title;
   final String body;
   final DateTime sentDate;
+  @ignore
   final Map<String, dynamic>? data;
   final String? imageUrl;
 
