@@ -1,3 +1,8 @@
 # push_app
 
-A new Flutter project.
+# DEV
+
+1. Si cambias en las entidades, hay que ejecutar el comando 
+```````````````````````````````````
+flutter pub run build_runner build
+```````````````````````````````````

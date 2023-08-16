@@ -1,4 +1,11 @@
+import 'package:isar/isar.dart';
+
+part 'push_message.g.dart';
+
+@collection
 class PushMessage {
+  Id id = Isar.autoIncrement; // you can also use id = null to auto increment
+
   final String messageId;
   final String title;
   final String body;
