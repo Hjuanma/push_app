@@ -14,4 +14,9 @@ class LocalStorageRepositoryImpl extends LocalStorageRepository {
     return await datasource.loadPushMessages(limit: limit, offset: offset);
   }
   
+  @override
+  Future<void> addPushMessages(PushMessage message) async {
+    return await datasource.addPushMessages(message);
+  }
+  
 }

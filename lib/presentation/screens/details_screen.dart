@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../domain/domain.dart';
+import '../../domain/entities/entities.dart';
 import '../blocs/notification/notications_bloc.dart';
 
 class DetailsScreen extends StatelessWidget {

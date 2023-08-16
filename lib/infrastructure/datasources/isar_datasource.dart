@@ -13,7 +13,7 @@ class IsarDatasource  extends LocalStorageDatasource {
   @override
   Future<List<PushMessage>> loadPushMessages({int limit = 10, offset = 0}) async {
      final isar = await db;
-    return await isar.pushMessages.where().offset(offset).limit(limit).findAll();
+    return await isar.pushMessages.where().sortBySentDateDesc().offset(offset).limit(limit).findAll();
   }
   
   Future<Isar> openDB() async{
@@ -23,6 +23,12 @@ class IsarDatasource  extends LocalStorageDatasource {
           directory: dir.path, inspector: true);
     }
     return Future.value(Isar.getInstance());
+  }
+  
+  @override
+  Future<void> addPushMessages(PushMessage message) async{
+    final isar = await db;
+    isar.writeTxnSync(() => isar.pushMessages.putSync(message));
   }
   
 }
