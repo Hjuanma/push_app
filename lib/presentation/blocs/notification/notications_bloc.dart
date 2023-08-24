@@ -7,6 +7,8 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 
 import '../../../domain/entities/entities.dart';
 import '../../../firebase_options.dart';
+import '../../../infrastructure/datasources/isar_datasource.dart';
+import '../../../infrastructure/repositories/local_storage_repository_impl.dart';
 
 part 'notications_event.dart';
 part 'notications_state.dart';
@@ -21,6 +23,8 @@ Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 
 class NoticationsBloc extends Bloc<NoticationsEvent, NoticationsState> {
   FirebaseMessaging messaging = FirebaseMessaging.instance;
+
+  final localStorageRepository = LocalStorageRepositoryImpl(IsarDatasource());
 
   NoticationsBloc() : super(const NoticationsState()) {
     on<NotificationStatusChanged>(_notificationStatusChanged);
@@ -46,9 +50,9 @@ class NoticationsBloc extends Bloc<NoticationsEvent, NoticationsState> {
   }
 
   void _onPushMessgeRecieived(
-      NotificationReceived event, Emitter<NoticationsState> emit) {
-    emit(state.copyWith(
-        notifications: [event.notification, ...state.notifications]));
+      NotificationReceived event, Emitter<NoticationsState> emit) async {
+    //emit(state.copyWith(lastNotification: event.notification));
+    await localStorageRepository.addPushMessages(event.notification);
   }
 
   void _initialStatusCheck() async {
@@ -97,14 +101,5 @@ class NoticationsBloc extends Bloc<NoticationsEvent, NoticationsState> {
 
     add(NotificationStatusChanged(settings.authorizationStatus));
     _getFCMToken();
-  }
-
-  PushMessage? getMessageById(String pushMessageId){
-    final exist = state.notifications.any((element) => element.messageId == pushMessageId,);
-
-    if(!exist) return null;
-
-    return state.notifications.firstWhere((element) => element.messageId == pushMessageId);
-    
   }
 }

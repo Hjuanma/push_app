@@ -10,8 +10,8 @@ class LocalStorageRepositoryImpl extends LocalStorageRepository {
   LocalStorageRepositoryImpl(this.datasource);
   
   @override
-  Future<List<PushMessage>> loadPushMessages({int limit = 10, offset = 0}) async {
-    return await datasource.loadPushMessages(limit: limit, offset: offset);
+  Stream<List<PushMessage>> loadPushMessages({int limit = 10, offset = 0}) async* {
+    yield* datasource.loadPushMessages(limit: limit, offset: offset);
   }
   
   @override

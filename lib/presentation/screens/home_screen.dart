@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:push_app/presentation/blocs/notification/notications_bloc.dart';
+
+import '../blocs/isar/isar_bloc.dart';
+import '../blocs/notification/notications_bloc.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -30,7 +32,8 @@ class _HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final notifications = context.watch<NoticationsBloc>().state.notifications;
+    context.watch<IsarBloc>().startPushMessages();
+    final notifications = context.watch<IsarBloc>().state.notifications;
     return ListView.builder(
       itemCount: notifications.length,
       itemBuilder: (context, index) {

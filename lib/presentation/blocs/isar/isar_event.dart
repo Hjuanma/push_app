@@ -5,9 +5,11 @@ sealed class IsarEvent {
 }
 
 class PushMessagesLoaded extends IsarEvent {
-  final List<PushMessage> notifications;
+  PushMessagesLoaded();
+}
 
-  PushMessagesLoaded(this.notifications);
+class PushMessagesStarted extends IsarEvent {
+  PushMessagesStarted();
 }
 
 class PushMessagesAdded extends IsarEvent {

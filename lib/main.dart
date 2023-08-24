@@ -6,6 +6,8 @@ import 'config/router/app_router.dart';
 
 import 'package:push_app/presentation/blocs/notification/notications_bloc.dart';
 
+import 'presentation/blocs/isar/isar_bloc.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
@@ -14,6 +16,9 @@ void main() async {
     providers: [
       BlocProvider(
         create: (context) => NoticationsBloc(),
+      ),
+      BlocProvider(
+        create: (context) => IsarBloc(),
       ),
     ],
     child: const MainApp(),

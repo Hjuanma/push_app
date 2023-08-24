@@ -3,11 +3,13 @@ import 'package:push_app/presentation/screens/screens.dart';
 
 final appRouter = GoRouter(routes: [
   GoRoute(
-    path: "/",
+    path: '/',
     builder: (context, state) => const HomeScreen(),
   ),
   GoRoute(
-    path: "detai/:id",
-    builder: (context, state) => DetailsScreen(pushMessageId: state.pathParameters["id"] ?? "no-id"),
+    path: '/push-details/:messageId',
+    builder: (context, state) => DetailsScreen(
+      pushMessageId: state.pathParameters['messageId'] ?? '',
+    ),
   ),
 ]);

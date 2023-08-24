@@ -3,18 +3,18 @@ part of 'notications_bloc.dart';
 class NoticationsState extends Equatable {
   final AuthorizationStatus status;
 
-  final List<PushMessage> notifications;
+  final PushMessage? lastNotification;
 
   const NoticationsState(
       {this.status = AuthorizationStatus.notDetermined,
-      this.notifications = const []});
+      this.lastNotification});
 
   NoticationsState copyWith(
-          {AuthorizationStatus? status, List<PushMessage>? notifications}) =>
+          {AuthorizationStatus? status, PushMessage? lastNotification}) =>
       NoticationsState(
-          notifications: notifications ?? this.notifications,
+          lastNotification: lastNotification ?? this.lastNotification,
           status: status ?? this.status);
 
   @override
-  List<Object> get props => [status, notifications];
+  List<Object> get props => [status];
 }
