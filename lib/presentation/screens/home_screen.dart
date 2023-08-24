@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 import '../blocs/isar/isar_bloc.dart';
 import '../blocs/notification/notications_bloc.dart';
@@ -12,12 +13,12 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: context.select(
-          (NoticationsBloc bloc) => Text("${bloc.state.status}"),
+          (NotificationsBloc bloc) => Text("${bloc.state.status}"),
         ),
         actions: [
           IconButton(
               onPressed: () {
-                context.read<NoticationsBloc>().requestPermission();
+                context.read<NotificationsBloc>().requestPermission();
               },
               icon: const Icon(Icons.settings))
         ],
@@ -32,7 +33,7 @@ class _HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    context.watch<IsarBloc>().startPushMessages();
+    context.read<IsarBloc>().startPushMessages();
     final notifications = context.watch<IsarBloc>().state.notifications;
     return ListView.builder(
       itemCount: notifications.length,
@@ -44,6 +45,7 @@ class _HomeView extends StatelessWidget {
           leading: notification.imageUrl != null
               ? Image.network(notification.imageUrl!)
               : const SizedBox(),
+              onTap: () => context.push("/push-details/${notification.messageId}"),
         );
       },
     );

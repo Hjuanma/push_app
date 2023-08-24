@@ -21,12 +21,12 @@ Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   print("Handling a background message: ${message.messageId}");
 }
 
-class NoticationsBloc extends Bloc<NoticationsEvent, NoticationsState> {
+class NotificationsBloc extends Bloc<NoticationsEvent, NoticationsState> {
   FirebaseMessaging messaging = FirebaseMessaging.instance;
 
   final localStorageRepository = LocalStorageRepositoryImpl(IsarDatasource());
 
-  NoticationsBloc() : super(const NoticationsState()) {
+  NotificationsBloc() : super(const NoticationsState()) {
     on<NotificationStatusChanged>(_notificationStatusChanged);
     on<NotificationReceived>(_onPushMessgeRecieived);
 
@@ -68,7 +68,7 @@ class NoticationsBloc extends Bloc<NoticationsEvent, NoticationsState> {
     print("Token ===== $token");
   }
 
-  void _handleRemoteMessage(RemoteMessage message) {
+  void handleRemoteMessage(RemoteMessage message) {
     if (message.notification == null) return;
     final notification = PushMessage(
         messageId:
@@ -85,7 +85,7 @@ class NoticationsBloc extends Bloc<NoticationsEvent, NoticationsState> {
   }
 
   void _onForegroundMessage() {
-    FirebaseMessaging.onMessage.listen(_handleRemoteMessage);
+    FirebaseMessaging.onMessage.listen(handleRemoteMessage);
   }
 
   void requestPermission() async {
